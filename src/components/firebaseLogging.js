@@ -9,13 +9,13 @@ import {
   getDoc,
   doc,
   setDoc,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 // Your Firebase config
 const firebaseConfig = {
-   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
@@ -47,7 +47,8 @@ export async function getAllCommentRequests() {
 // Save vote form data
 export async function saveVoteForm({ statement, options, creatorAddress }) {
   if (!statement) throw new Error("Statement is required");
-  if (!Array.isArray(options) || options.length === 0) throw new Error("Options must be a non-empty array");
+  if (!Array.isArray(options) || options.length === 0)
+    throw new Error("Options must be a non-empty array");
   if (!creatorAddress) throw new Error("Creator address is required");
 
   try {
@@ -108,11 +109,10 @@ export async function saveCommentRequest({ subject, creatorAddress }) {
   }
 }
 
-
-
 export async function saveVote({ voteFormId, selectedOption, voterAddress }) {
   if (!voteFormId) throw new Error("voteFormId is required");
-  if (!selectedOption) throw new Error("Selected option must be provided and not undefined");
+  if (!selectedOption)
+    throw new Error("Selected option must be provided and not undefined");
   if (!voterAddress) throw new Error("voterAddress is required");
 
   const voteDocRef = doc(db, "voteForms", voteFormId, "votes", voterAddress);
@@ -128,7 +128,6 @@ export async function saveVote({ voteFormId, selectedOption, voterAddress }) {
   });
 }
 
-
 // Check if a user already voted on a specific voteForm
 export async function hasVoted(voteFormId, voterAddress) {
   if (!voterAddress) return false;
@@ -139,12 +138,22 @@ export async function hasVoted(voteFormId, voterAddress) {
 }
 
 // Save a reply as a subdocument under "replies" subcollection of a commentRequest
-export async function saveCommentReply({ commentRequestId, replyText, replierAddress }) {
+export async function saveCommentReply({
+  commentRequestId,
+  replyText,
+  replierAddress,
+}) {
   if (!commentRequestId) throw new Error("commentRequestId is required");
   if (!replyText) throw new Error("Reply text is required");
   if (!replierAddress) throw new Error("replierAddress is required");
 
-  const replyDocRef = doc(db, "commentRequests", commentRequestId, "replies", replierAddress);
+  const replyDocRef = doc(
+    db,
+    "commentRequests",
+    commentRequestId,
+    "replies",
+    replierAddress
+  );
 
   const existingReply = await getDoc(replyDocRef);
   if (existingReply.exists()) {
@@ -159,11 +168,22 @@ export async function saveCommentReply({ commentRequestId, replyText, replierAdd
 
 // 1. Delete all replies in a comment request's subcollection
 export const deleteRepliesSubcollection = async (commentRequestId) => {
-  const repliesRef = collection(db, "commentRequests", commentRequestId, "replies");
+  const repliesRef = collection(
+    db,
+    "commentRequests",
+    commentRequestId,
+    "replies"
+  );
   const repliesSnapshot = await getDocs(repliesRef);
 
   const deletePromises = repliesSnapshot.docs.map((docSnap) => {
-    const replyDocRef = doc(db, "commentRequests", commentRequestId, "replies", docSnap.id);
+    const replyDocRef = doc(
+      db,
+      "commentRequests",
+      commentRequestId,
+      "replies",
+      docSnap.id
+    );
     return deleteDoc(replyDocRef);
   });
 
@@ -176,7 +196,9 @@ export const deleteCommentRequest = async (commentRequestId) => {
     await deleteRepliesSubcollection(commentRequestId);
     const commentRef = doc(db, "commentRequests", commentRequestId);
     await deleteDoc(commentRef);
-    console.log(`Successfully deleted comment request ${commentRequestId} and all its replies`);
+    console.log(
+      `Successfully deleted comment request ${commentRequestId} and all its replies`
+    );
   } catch (error) {
     console.error("Failed to delete comment request:", error);
     throw error;
@@ -186,21 +208,34 @@ export const deleteCommentRequest = async (commentRequestId) => {
 // 3. Delete a single reply (if you want to allow individual reply deletion)
 export const deleteSingleReply = async (commentRequestId, replierAddress) => {
   try {
-    const replyRef = doc(db, "commentRequests", commentRequestId, "replies", replierAddress);
+    const replyRef = doc(
+      db,
+      "commentRequests",
+      commentRequestId,
+      "replies",
+      replierAddress
+    );
     await deleteDoc(replyRef);
-    console.log(`Successfully deleted reply from ${replierAddress} in comment request ${commentRequestId}`);
+    console.log(
+      `Successfully deleted reply from ${replierAddress} in comment request ${commentRequestId}`
+    );
   } catch (error) {
     console.error("Failed to delete reply:", error);
     throw error;
   }
 };
 
-
 // Check if a user already replied on a specific commentRequest
 export async function hasReplied(commentRequestId, replierAddress) {
   if (!replierAddress) return false;
 
-  const replyDocRef = doc(db, "commentRequests", commentRequestId, "replies", replierAddress);
+  const replyDocRef = doc(
+    db,
+    "commentRequests",
+    commentRequestId,
+    "replies",
+    replierAddress
+  );
   const replyDoc = await getDoc(replyDocRef);
   return replyDoc.exists();
 }
@@ -209,7 +244,10 @@ export async function hasReplied(commentRequestId, replierAddress) {
 export async function getVoteFormsByCreator(creatorAddress) {
   if (!creatorAddress) throw new Error("creatorAddress is required");
 
-  const q = query(collection(db, "voteForms"), where("creatorAddress", "==", creatorAddress));
+  const q = query(
+    collection(db, "voteForms"),
+    where("creatorAddress", "==", creatorAddress)
+  );
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -219,7 +257,10 @@ export async function getVoteFormsByCreator(creatorAddress) {
 export async function getCommentRequestsByCreator(creatorAddress) {
   if (!creatorAddress) throw new Error("creatorAddress is required");
 
-  const q = query(collection(db, "commentRequests"), where("creatorAddress", "==", creatorAddress));
+  const q = query(
+    collection(db, "commentRequests"),
+    where("creatorAddress", "==", creatorAddress)
+  );
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -229,7 +270,9 @@ export async function getCommentRequestsByCreator(creatorAddress) {
 export async function getVotesForForm(formId) {
   if (!formId) throw new Error("formId is required");
 
-  const votesSnapshot = await getDocs(collection(db, "voteForms", formId, "votes"));
+  const votesSnapshot = await getDocs(
+    collection(db, "voteForms", formId, "votes")
+  );
   return votesSnapshot.docs.map((doc) => doc.data());
 }
 
@@ -237,7 +280,9 @@ export async function getVotesForForm(formId) {
 export async function getRepliesForCommentRequest(commentRequestId) {
   if (!commentRequestId) throw new Error("commentRequestId is required");
 
-  const repliesSnapshot = await getDocs(collection(db, "commentRequests", commentRequestId, "replies"));
+  const repliesSnapshot = await getDocs(
+    collection(db, "commentRequests", commentRequestId, "replies")
+  );
   return repliesSnapshot.docs.map((doc) => doc.data());
 }
 
@@ -245,7 +290,10 @@ export async function getRepliesForCommentRequest(commentRequestId) {
 export async function getVoteFormsWithVotesByCreator(creatorAddress) {
   if (!creatorAddress) throw new Error("creatorAddress is required");
 
-  const q = query(collection(db, "voteForms"), where("creatorAddress", "==", creatorAddress));
+  const q = query(
+    collection(db, "voteForms"),
+    where("creatorAddress", "==", creatorAddress)
+  );
   const snapshot = await getDocs(q);
 
   const voteFormsData = [];
@@ -259,7 +307,9 @@ export async function getVoteFormsWithVotesByCreator(creatorAddress) {
       continue; // skip invalid data
     }
 
-    const votesSnapshot = await getDocs(collection(db, "voteForms", formId, "votes"));
+    const votesSnapshot = await getDocs(
+      collection(db, "voteForms", formId, "votes")
+    );
 
     // Initialize counts per option
     const votesCount = {};
@@ -269,7 +319,10 @@ export async function getVoteFormsWithVotesByCreator(creatorAddress) {
 
     votesSnapshot.forEach((voteDoc) => {
       const vote = voteDoc.data();
-      if (vote.selectedOption && Object.prototype.hasOwnProperty.call(vote.selectedOption)) {
+      if (
+        vote.selectedOption &&
+        Object.prototype.hasOwnProperty.call(votesCount, vote.selectedOption)
+      ) {
         votesCount[vote.selectedOption]++;
       }
     });
