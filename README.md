@@ -53,7 +53,7 @@ In a future release, we’ll use the stored wallet addresses to:
 ### 1. Clone the Repository
 
 
-git clone https://github.com/yourusername/pulse-board.git
+git clone https://github.com/Adz30/pulseBoard.git
 cd pulse-board
 2. Install Dependencies
 
