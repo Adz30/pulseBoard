@@ -12,6 +12,11 @@
 - 🪙 **Coming Soon**: Winning voters or commenters will be rewarded with an **NFT**!
 
 ---
+## 🚀 Live Demo
+
+Check out the deployed Pulse Board app here:  
+[https://main.d1b9edbs8hrfxu.amplifyapp.com/](https://main.d1b9edbs8hrfxu.amplifyapp.com/)
+---
 
 ## 🚀 How It Works
 
@@ -48,7 +53,7 @@ In a future release, we’ll use the stored wallet addresses to:
 ### 1. Clone the Repository
 
 
-git clone https://github.com/yourusername/pulse-board.git
+git clone https://github.com/Adz30/pulseBoard.git
 cd pulse-board
 2. Install Dependencies
 
