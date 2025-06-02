@@ -12,6 +12,11 @@
 - 🪙 **Coming Soon**: Winning voters or commenters will be rewarded with an **NFT**!
 
 ---
+## 🚀 Live Demo
+
+Check out the deployed Pulse Board app here:  
+[https://main.d1b9edbs8hrfxu.amplifyapp.com/](https://main.d1b9edbs8hrfxu.amplifyapp.com/)
+---
 
 ## 🚀 How It Works
 
