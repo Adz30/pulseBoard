@@ -11,7 +11,7 @@ import { useAppKitAccount } from "@reown/appkit/react";
 
 const styles = {
   container: {
-    maxWidth: 700,
+    maxWidth: "90vw",
     margin: "auto",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     padding: "1rem",
@@ -35,12 +35,14 @@ const styles = {
     gap: "1rem",
   },
   card: {
-    border: "1px solid #ddd",
-    borderRadius: 6,
-    padding: "1rem",
-    width: "300px",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-  },
+  border: "1px solid #ddd",
+  borderRadius: 6,
+  padding: "1rem",
+  flex: "1 1 300px",  // flexible: grow=1, shrink=1, basis=300px
+  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+  boxSizing: "border-box",
+  minWidth: 0,       // helps prevent overflow in flexbox children
+},
   button: {
     backgroundColor: "#0070f3",
     color: "white",
