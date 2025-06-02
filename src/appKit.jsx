@@ -3,7 +3,8 @@ import { createAppKit } from "@reown/appkit";
 import { EthersAdapter } from "@reown/appkit-adapter-ethers";
 import { mainnet, arbitrum, base } from "@reown/appkit/networks";
 
-const projectId = "4158fb5eea18d5f14d75b86f56184139";
+const projectId = import.meta.env.VITE_PROJECT_ID;
+
 
 const metadata = {
   name: "Pulse Board",
