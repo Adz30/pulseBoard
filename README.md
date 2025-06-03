@@ -15,7 +15,7 @@
 ## 🚀 Live Demo
 
 Check out the deployed Pulse Board app here:  
-[https://main.d1b9edbs8hrfxu.amplifyapp.com/](https://main.d1b9edbs8hrfxu.amplifyapp.com/)
+https://pulse-board-psi.vercel.app
 ---
 
 ## 🚀 How It Works
