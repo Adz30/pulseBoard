@@ -14,6 +14,8 @@
 ---
 ## 🚀 Live Demo
 
+https://youtu.be/nj8Z7BXo_Aw
+
 Check out the deployed Pulse Board app here:  
 https://pulse-board-psi.vercel.app
 ---
