@@ -43,7 +43,7 @@ In a future release, we’ll use the stored wallet addresses to:
 | Frontend     | Vite + React        |
 | Wallet Login | Reown AppKit        |
 | Backend      | Firebase Firestore  |
-| Hosting      | Fleek (IPFS)        |
+| Hosting      | vercel     |
 | Styling      | Custom CSS          |
 
 ---
